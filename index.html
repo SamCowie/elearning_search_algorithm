@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<title>8 Puzzle</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="css/index.css" rel="stylesheet" media="screen" type="text/css">
+	<head>
+	<link rel="icon" href="img/favicon.png" type="image/gif" size="32x32">
+	</head>
+	<body class="w3-dark-grey">
+	<div class="w3-top">
+		<div class="w3-row w3-teal">
+			<div class="w3-col s12 w3-margin-left">
+				<h4>Visualising Search Algorithms with 8 puzzle </h4>
+			</div>
+		</div>
+	</div>
+  <!-- Header -->
+	<header class="w3-container " style="padding-top:56px">
+	</header>
+	<div class="w3-row-padding">
+		<!--Search panel-->
+		<div class="w3-quarter">
+			<div class="w3-container w3-white w3-padding-8" id = "container">
+				<p><b>Search Panel</b></p>
+				<p>Here you can select from 5 different algorithms with 2 seperate approaches. Once an algorithm is selected you can either learn more about the approach of that specific algorithm or run the algorithm on the current configurations of the 8 puzzle. If the algorithm is an informed search you will also have to select a heuristic. Statistics about the algorithm will be displayed in the table below.</p>
+				<!--searcb dropdown box options-->
+				<select class="dropdown w3-select w3-border w3-centered w3-margin-bottom" value="search_dropdown1" id="search_dropdown1" onchange="selectbox(this)">
+					<option value="unselected">Select an Algorithm</option>
+					<optgroup value ="subheader" label="Exhaustive Search">
+						<option value="BFS">Breath First Search</option>
+						<option value="DFS">Depth First Search</option>
+						<option value="UCS">Uniform Cost Search</option>
+					<optgroup value ="subheader" label="Informed Search">
+						<option value="A*">A* Search</option>
+						<option value="GS">Greedy Search</option>
+				</select>
+				
+				<input class=" w3-margin-bottom" type="number" id="dfs_textbox" placeholder="Input an integer for max search depth" maxlength="8" style="display:none; width: 80%">
+				<!--heuristic dropdown box options-->
+				<select class="dropdown w3-select w3-border w3-centered w3-margin-bottom" value="search_dropdown2" id="search_dropdown2" style="display:none">
+					<option value="unselected">Select Heuristic</option>
+					<option value="MD">Manhattan Distance</option>
+					<option value="MT">Misplaced Tile</option>
+				</select>
+				<!--buttons in the search pannel-->
+				<button class="w3-button w3-dark-grey" onclick="learnMore()" id="learnBtn"> Learn More </button>
+				<button class="w3-button w3-dark-grey" onclick="chooseAlgorithm()" id="calcBtn" style="display:inline-block"> Solve </button>
+			</div>
+		</div>
+		<!--puzzle panel-->
+		<div class="w3-quarter ">
+			<div class="w3-container w3-white w3-padding-8 " id = "container">
+				<p><b>Intial State</b></p>
+				<table class=" w3-border w3-margin-bottom"id = "initial" >
+					<tr  id="row1">
+					   <td class="puzzletd" id="inttd0"></td><td class="puzzletd" id="inttd1"></td><td class="puzzletd" id="inttd2"> </td> 
+					<TR id="row2">
+					   <td class="puzzletd" id="inttd3"></td><td class="puzzletd" id="inttd4"></td><td class="puzzletd" id="inttd5"> </td> 
+					<TR id="row3">
+					   <td class="puzzletd" id="inttd6"></td><td class="puzzletd" id="inttd7"></td><td class="puzzletd" id="inttd8"> </td> 
+				</table>
+				
+				<button class="w3-button w3-dark-grey "id = "btnChange" onclick="document.getElementById('board_change').style.display='block'"> Change Board</button>
+				<button class="w3-button w3-dark-grey" onclick="playSolution()" id="stepBtn" style="display:none"> Step</button>
+				<button class="w3-button w3-dark-grey" onclick="runSolution()" id="runBtn" style="display:none"> Run</button>
+				<button class="w3-button w3-deep-orange" onclick="resetBtns()" id="resetBtn" style="display:none">Reset</button>
+
+				<div id="board_change" class="w3-modal w3-animate-opacity ">
+					<div class="w3-modal-content w3-card-4 "style="max-width:500px; max-height:600px">
+					<header class="w3-container w3-teal"> 
+						<span 	onclick="document.getElementById('board_change').style.display='none'"; 
+						class="w3-button w3-display-topright">&times;</span>
+						<h4>Change Initial Board</h4>
+					</header>
+					<div class="w3-container w3-">
+					<p><b>Select from two options:</b></p>
+					<ul>
+						<li><b>Preselected Board:</b> Use predefined variations of the 8 puzzle which have been tested and find solutions. </li>
+						<li><b>Custom Input:</b> Try your own versions of the 8 puzzle by inputting a unique 9 digit number with numbers ranging from 0-8.</li>
+					</ul>
+						<button class="w3-button w3-dark-grey w3-margin-bottom" onclick="displayInput(id)" id="dropdownInputBtn"> Preselected Board</button>
+						<button class="w3-button w3-dark-grey w3-margin-bottom" onclick="displayInput(id)" id="customInputBtn"> Custom Input</button>
+						<select class="dropdown w3-select w3-border w3-centered w3-margin-bottom" value="puzzle_dropdown" id="puzzle_dropdown" style="display:none">
+							<option value="unselected">Select a preconfigured puzzle board</option>
+							<option value="012345678">[0,1,2,3,4,5,6,7,8]</option>
+							<option value="128435670">[1,2,8,4,3,5,6,7,0]</option>
+							<option value="867254301">[8,6,7,2,5,4,3,0,1]</option>
+							<option value="234508761">[2,3,4,5,0,8,7,6,1]</option>
+							<option value="415306728">[4,1,5,3,0,6,7,2,8]</option>
+						</select>
+						<input class=" w3-margin-bottom" type="number" id="puzzle_textbox" placeholder="Input a sequence of unique numbers (0-8)" size ="9"maxlength="9" style="width: 300px; display:none">
+					</div>
+					<footer class="w3-container w3-teal">
+						<button class="w3-button w3-dark-grey w3-margin-top w3-margin-bottom" onclick="changeBoard()" id="changeBoardBtn"> Update board</button>
+					</footer>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<!--output panel-->
+		<div class="w3-quarter" id = "test">
+			<div class="w3-container w3-white w3-padding-8" id = "container">
+				<p id="title"> <b>Search Result</b></p>
+				<table class="w3-table w3-bordered">
+					<tr>
+						<th> 
+							<div class="popup" onclick="popUp(0)"><button class="round">?</button>
+								<span class="popuptext" id="myPopup0">This is the starting state for the current search.</span>
+							</div>
+							 Initial State:
+						</th>
+						<td id="initialState">-</td>
+					</tr>
+					<tr>
+						<th>
+							<div class="popup" onclick="popUp(1)"><button class="round">?</button>
+								<span class="popuptext" id="myPopup1">A boolean value for if current search type has found result with current configuration</span>
+							</div>
+							Found Solution?
+						</th>
+						<td id="solutionFound">-</td>
+					</tr>
+					<tr>
+						<th>
+							<div class="popup" onclick="popUp(2)"><button class="round">?</button>
+								<span class="popuptext" id="myPopup2">The time taken to complete search (As javascript datatypes for storing values take different times to retrieve data only compare </span>
+							</div>
+							Time Taken:
+						</th>
+						<td id="timeTaken">-</td>
+					</tr>
+					<tr>
+						<th>
+							<div class="popup" onclick="popUp(3)"><button class="round">?</button>
+								<span class="popuptext" id="myPopup3">The moves to the goal (L = move blank tile to left | R = move blank tile to right | U = move blank tile up | D= move blank tile to down) </span>
+							</div>
+							Solution Path:
+						</th>
+						<td id="path">-</td>
+					</tr>
+					<tr>
+						<th>
+							<div class="popup" onclick="popUp(4)"><button class="round">?</button>
+								<span class="popuptext" id="myPopup4">The number of moves to goal for current search algorithms solution. </span>
+							</div>
+							Solution Length:
+						</th>
+						<td id="solutionDepth">-</td>
+					</tr>
+					<tr>
+						<th>
+							<div class="popup" onclick="popUp(5)"><button class="round" id "roundBtn">?</button>
+								<span class="popuptext" id="myPopup5">Search nodes that were not expanded/checked in search.</span>
+							</div>
+							Open List Size:
+						</th>
+						<td id="openList">-</td>
+					</tr>
+					<tr>
+						<th>
+							<div class="popup" onclick="popUp(6)"><button class="round">?</button>
+								<span class="popuptext" id="myPopup6">Search nodes that have been expanded in search.</span>
+							</div>
+							Closed List Size:
+						</th>
+						<td id="closedList">-</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--goal puzzle panel-->
+		<div class="w3-quarter">
+			<div class="w3-container w3-white w3-padding-8" id = "container">
+				<p><b>Goal State</b></p>
+				<table class=" w3-border puzzleboard" id = "initial">
+					<tr  id="row1">
+					   <td class="puzzletd" id="goaltd0"></td><td class="puzzletd" id="goaltd1"></td><td class="puzzletd" id="goaltd2"> </td> 
+					<TR id="row2">
+					   <td class="puzzletd" id="goaltd3"></td><td class="puzzletd" id="goaltd4"></td><td class="puzzletd"id="goaltd5"> </td> 
+					<TR id="row3">
+					   <td class="puzzletd" id="goaltd6"></td><td class="puzzletd" id="goaltd7"></td><td class="puzzletd" id="goaltd8"> </td> 
+				</table>
+			</div>
+		</div>
+		</div>
+		<!---->
+		<div class="w3-panel w3-hide-small">
+			<div class="w3 s12 m12 l12">
+				<div class="w3-container w3-white w3-padding-8" id = "container">
+					<p><b>Algorithm Comparison Table</b></p>
+					<table class="w3-table w3-striped w3-border w3-centered table" id="comparisonTable">
+						<thead>
+							<tr class="w3-teal">
+							<th>
+								<div class="popup" onclick="popUp(11)"><button id="grey" class="round">?</button>
+									<span class="popuptext" id="myPopup11">A boolean value for if current search type has found result with current configuration</span>
+								</div>
+							</th>
+							<th>Algorithm</th>
+							<th>Initial State</th>
+							<th>Solved?</th>
+							<th>Time Taken (milliseconds)</th>
+							<th>Solution Path</th>
+							<th>Solution Length (moves)</th>
+							<th>Open List Size</th>
+							<th>Closed List Size</th>
+							</tr>
+						</thead>
+					 </table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Javascript external libraries-->
+		<script type="text/javascript" src="ext_libs/jquery.js"></script>
+		<script type="text/javascript" src="ext_libs/jshashtable.js"></script>
+		<script type="text/javascript" src="ext_libs/jshashset.js"></script>
+		<script type="text/javascript" src="ext_libs/queue.js"></script>
+	<!--Javascript files for searching-->
+		<script type="text/javascript" src="js/algorithm_functions.js"></script>
+		<script type="text/javascript" src="js/heuristic.js"></script>
+		<script type="text/javascript" src="js/node.js"></script>
+		<script type="text/javascript" src="js/bfs.js"></script>
+		<script type="text/javascript" src="js/dfs.js"></script>
+		<script type="text/javascript" src="js/ucs.js"></script>
+		<script type="text/javascript" src="js/puzzleboard.js"></script>
+	</body>
+	<p id="footerInfo">&copy; 2019 Sam Cowie (u5sc | 201113017)</p>
+</html>
