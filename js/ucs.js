@@ -8,7 +8,7 @@ function ucs(initial, goal) {
 	var startTime = new Date()
 	openList.push(new Node(initial, 0,"","",""));
 	console.log("UCS SEARCH");
-	while (found != true) {
+	do  {
 		if (openList.length < 1) {
 			alert("Result not found")
 			document.getElementById("solutionFound").innerHTML = "No";
@@ -19,13 +19,13 @@ function ucs(initial, goal) {
 		if (!closedList.contains(current.stringValue)) {
 			closedList.add(current.stringValue);
 		}
-	}
+	} while (found != true)
 	//================================END CONDITIONS====================================
 	if (found === true) {
 		var endTime = new Date()
 		timeTaken = endTime - startTime
-		closedSize = parseInt(openList.length);
-		openSize = parseInt(closedList.size());
+		closedSize = parseInt(closedList.size());
+		openSize = parseInt(openList.length);
 		alert("Solution Found");
 		displayPlayBtn();
 		solutionFound = "Yes";

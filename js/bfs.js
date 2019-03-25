@@ -1,11 +1,14 @@
 function bfs(initial, goal) {
+	document.getElementById("html").style.cursor = "wait !important";
 	//==============================LOCAL VARIABLES====================================
 	path = "";
 	found = false;
 	openList = new Queue;
 	closedList = new HashSet();
 	//================================SEARCH LOOP======================================
+
 	var startTime = new Date()
+	var init = initial;
 	openList.push(new Node(initial, 0,"","",""));
 	console.log("BFS SEARCH");
 	do {
@@ -50,4 +53,5 @@ function bfs(initial, goal) {
 		document.getElementById("solutionFound").innerHTML = "No";
 		solutionFound = "false";
 	}
+	document.getElementById("html").style.cursor = "default";
 }

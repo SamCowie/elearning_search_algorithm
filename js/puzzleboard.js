@@ -173,7 +173,10 @@ function displayInput(val) {
 function changeBoard() {
 	var dropval = document.getElementById("puzzle_dropdown").value
 	var textval = document.getElementById("puzzle_textbox").value
+	const STRINGLENGTH = 9;
+	var possible = "";
 	var arr = [];
+	var count;
 	if (dropval === "unselected" && textval ==="") {
 		document.getElementById('board_change').style.display='none';
 		return;
@@ -182,21 +185,49 @@ function changeBoard() {
 		for (var i = 0; i< dropval.length; i++) {
 			arr.push(parseInt(dropval.charAt(i)))
 		}
-		currentBoard = arr;
-		console.log(currentBoard);
+		currentBoard = arr;	
 		setup();
-		document.getElementById('board_change').style.display='none'
-		
+		document.getElementById('board_change').style.display='none';
+		return;
 	} else {
-		if (textval.length < 9) {
-			console.log("value not long enough")
+		if (textval.length < STRINGLENGTH) {
+			alert("value not long enough")
+			return;
+		} 
+		else if (textval.length > STRINGLENGTH) {
+			alert("value too long")
+			return;
 		} else {
+				for (var j = 0; i < STRINGLENGTH; i++) {
+				count = 0;
+					for (var k = 0; j < STRINGLENGTH; i++) {
+						if(textval[j] === textval[k]) {
+							count ++;
+						}
+						if (count > 1) {
+							alert("value has repeated integer please input correct format");
+							possible = "no";
+							break;
+						}
+					}
+				return;
+			}
+			if (possible == "") {
+				for (var h = 0; h < STRINGLENGTH; h++) {
+					var arrayChar = textval.charAt(h);
+					arr.push(parseInt(arrayChar));
+				}
+				currentBoard = arr;
+				setup();
+				document.getElementById('board_change').style.display='none'
+			}
 		}
 	}
 }
 function chooseAlgorithm() {
 	var val = document.getElementById("search_dropdown1");
 	var selectValue = val.options[val.selectedIndex].value;
+	var heuristic = document.getElementById("search_dropdown2").value;
 	depthlimit = document.getElementById("dfs_textbox").value;
 	switch(selectValue) {
     case "BFS":
@@ -213,10 +244,22 @@ function chooseAlgorithm() {
 		ucs(currentBoard,goalBoard)
         break;
 	case "A*":
-		alert("algorithm not implemented")
-        break;
+		if (heuristic == "MD") {
+			astar(currentBoard,goalBoard,"manhattan");
+		} else if (heuristic == "MT") {
+			astar(currentBoard,goalBoard,"misplaced");
+		} else {
+			alert("Please select a heuristic")
+		}
+		break;
 	case "GS":
-		alert("algorithm not implemented")
+		if (heuristic == "MD") {
+			greedy(currentBoard,goalBoard,"manhattan");
+		} else if (heuristic == "MT") {
+			greedy(currentBoard,goalBoard,"misplaced");
+		} else {
+			alert("Please select a heuristic")
+		}
         break;
     default:
         alert("Please select an algorithm!");
@@ -397,9 +440,15 @@ function resetBtns() {
 	count = 0;
 }
 function popUp(value) {
+	
 	popnum = "myPopup" + value;
 	var popup = document.getElementById(popnum);
 	popup.classList.toggle("show");	
+}
+function popDown(value) {
+	popnum = "myPopup" + value;
+	var popup = document.getElementById(popnum);
+	popup.classList.toggle("show")
 }
 
 function deleteRow() {
@@ -425,40 +474,49 @@ function pushTable(found) {
 	
 	var button = document.createElement("button");
 	button.setAttribute("class", "delete");
-	button.innerHTML = "x";
+	button.innerHTML = "&#x2715";
 	button.id = "deleteBtn" + tableCount;
 	button.onclick = deleteRow;
 	cell1.appendChild(button);
 	
 	if (dropval == "BFS") {
-		cell2.innerHTML = "BFS";
+		cell3.innerHTML = "BFS";
 	} else if (dropval == "DFS") {
 		var textval = document.getElementById("dfs_textbox").value;
 		if (textval == "") {
-			cell2.innerHTML = "DFS";
+			cell3.innerHTML = "DFS";
 		} else {
-			cell2.innerHTML = "DLS (Limit: " + textval + ")";
+			cell3.innerHTML = "DLS (Limit: " + textval + ")";
 		}
 	} else if (dropval == "UCS") {
-		cell2.innerHTML = "UCS";
+		cell3.innerHTML = "UCS";
 	} else if(dropval == "A*") {
 		var dropval2 = document.getElementById("search_dropdown2").value;
-		cell2.innerHTML = "A* (" + dropval2 + ")";
+		if (dropval2 == "MD") {
+			dropval2 = "Manhattan Distance";
+		} else {
+			dropval2 = "Misplaced Tile";
+		}
+		cell3.innerHTML = "A* (" + dropval2 + ")";
 	} else {
 		var dropval2 = document.getElementById("search_dropdown2").value;
-		cell2.innerHTML = "GS (" + dropval2 + ")";
+		if (dropval2 == "MD") {
+			dropval2 = "Manhattan Distance";
+		} else {
+			dropval2 = "Misplaced Tile";
+		}
+		cell3.innerHTML = "Greedy (" + dropval2 + ")";
 	}
 	if (found == false) {
-		cell3.innerHTML = "["+ currentBoard + "]";
+		cell2.innerHTML = "["+ currentBoard + "]";
 		cell4.innerHTML = "No";
-		cell4.innerHTML = "-";
 		cell5.innerHTML = "-";
 		cell6.innerHTML = "-";
 		cell7.innerHTML = "-";
 		cell8.innerHTML = "-";
 		cell9.innerHTML = "-";
 	} else {
-		cell3.innerHTML = "["+ currentBoard + "]";
+		cell2.innerHTML = "["+ currentBoard + "]";
 		cell4.innerHTML = solutionFound;
 		cell5.innerHTML = timeTaken;
 		cell6.innerHTML = solutionPathString;

@@ -12,6 +12,7 @@ function dfs(initial, goal, depth) {
 		if (openList.length < 1) {
 			alert("Result not found")
 			resetResults();
+			document.getElementById("initialState").innerHTML = "[" + currentBoard + "]";
 			document.getElementById("solutionFound").innerHTML = "No";
 			break;
 		}
