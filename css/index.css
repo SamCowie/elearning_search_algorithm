@@ -43,6 +43,24 @@ table {
 	background-color: red;
 }
 
+#disclaimer {
+	background-color: yellow;
+	width: 100%;
+	height: 85vh;
+	text-align: center;
+	display: inline-block
+}
+#intro {
+	text-align: center;
+	display: inline-block;
+}
+
+#li {
+	color: teal;
+	font-style:bold;
+	padding-bottom:1px;
+}
+
 .round, .delete {
 	height: 20px;
 	width: 20px;
