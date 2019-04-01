@@ -1,0 +1,195 @@
+div.container{
+    height: 10em;
+    position: relative 
+}
+div.container initial {
+    margin: 0;
+    background: yellow;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+}
+* {
+	font-size: 13px;
+	font-family:Arial;
+}
+#footerInfo {
+	text-align: center;
+}
+p, ul {
+	text-align: left;
+}
+
+li {
+	padding-bottom:16px;
+}
+
+table {
+	border-spacing: 5px;
+}
+.puzzletd {
+	vertical-align: baseline;
+	vertical-align: middle;
+	text-align: center;
+	height: 80px;
+	width: 80px;
+	font-size: 30px;
+	border: 1px solid lightgray;
+	background-color: #c9cacc
+}
+.test {
+	background-color: red;
+}
+
+#disclaimer {
+	background-color: yellow;
+	width: 100%;
+	height: 85vh;
+	text-align: center;
+	display: inline-block
+}
+#intro {
+	text-align: center;
+	display: inline-block;
+}
+
+#li {
+	color: teal;
+	font-style:bold;
+	padding-bottom:1px;
+}
+
+.round, .delete {
+	height: 20px;
+	width: 20px;
+	background-color: darkcyan;
+	border-radius: 50%;
+	display: inline-block;
+	border: 2px grey;
+	font-size:11px;
+	text-align: left;
+	color:white;
+}
+.delete {
+	background-color: red;
+}
+.delete:hover {
+	background-color: gray;
+}
+.round:hover { 
+  background-color: gray;
+}
+#grey {
+	background-color:#5f605d;
+}
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: white;
+  color: black;
+  border: 1px dotted black;
+  text-align: left;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+	displayinline-block;
+	visibility: visible;
+	-webkit-animation: fadeIn 1s;
+	animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+#container {
+	height: 380px; 
+	text-align: center;
+}
+.picture {
+	text-align:center;
+}
+#change {
+	margin-left: 25%;
+	text-align: center;
+	vertical-align: middle;
+}
+#initial {
+  margin: 0;
+  position: relative;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.powerpoint {
+	height: 90vh;
+}
+#input1 {
+	width:100%;
+	height: 100%;
+	text-align: center;
+}
+.puzzle_textbox {
+	width: 100% !important;
+}
+.dropdown {
+	width: 80%;
+	text-align: right !important;
+}
+#button { 
+	text-align: center;
+}
+h4 {
+	font-size: 16px !important;
+}
+.infoBtn {
+	background-color: #404040 !important;
+	font-size: 16px;
+}
+
+.info {
+	text-align: center;
+}
